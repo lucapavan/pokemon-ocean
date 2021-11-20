@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.pavanluca.pokemonocean">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".presentation.PokemonApp"
         android:allowBackup="false"
@@ -11,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PokémonOcean">
         <activity
-            android:name=".presentation.pokemon.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

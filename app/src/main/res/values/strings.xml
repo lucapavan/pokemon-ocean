@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pokémon Ocean</string>
+    <string name="pokemon_list_image_desc">Image of the pokemon inside the home\'s list</string>
 </resources>

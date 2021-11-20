@@ -22,7 +22,7 @@ class RepositoryImpl @Inject constructor(
                 offset = offset
             ).results!!.mapNotNull { it.name }
         }.getOrElse {
-            throw PokemonError.asNoData()
+            throw setupError(it)
         }
     }
 
@@ -30,12 +30,15 @@ class RepositoryImpl @Inject constructor(
         return runCatching {
             apiClient.getPokemon(name).toEntity()!!
         }.getOrElse {
-            throw it.localizedMessage?.let { localizedMessage ->
-                PokemonError(localizedMessage)
-            } ?: it.message?.let { message ->
-                PokemonError(message)
-            } ?: PokemonError.asNoData()
+            throw setupError(it)
         }
     }
 
+    private fun setupError(it: Throwable): Throwable {
+        return it.localizedMessage?.let { localizedMessage ->
+            PokemonError(localizedMessage)
+        } ?: it.message?.let { message ->
+            PokemonError(message)
+        } ?: PokemonError.asNoData()
+    }
 }
