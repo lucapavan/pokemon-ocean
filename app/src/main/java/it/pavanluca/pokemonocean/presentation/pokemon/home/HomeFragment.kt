@@ -1,4 +1,4 @@
-package it.pavanluca.pokemonocean.presentation.pokemon
+package it.pavanluca.pokemonocean.presentation.pokemon.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.uniflow.android.livedata.onStates
 import io.uniflow.core.flow.data.UIState
@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
 
     private fun setupAdapter() {
         pokemonAdapter.setOnClickListener { pokemon ->
-            // TODO: 20/11/21 Handle selection
+            findNavController().navigate(HomeFragmentDirections.actionShowDetail(pokemon))
         }
     }
 

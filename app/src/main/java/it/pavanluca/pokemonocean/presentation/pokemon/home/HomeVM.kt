@@ -1,4 +1,4 @@
-package it.pavanluca.pokemonocean.presentation.pokemon
+package it.pavanluca.pokemonocean.presentation.pokemon.home
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.uniflow.android.AndroidDataFlow

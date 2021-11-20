@@ -2,6 +2,7 @@ package it.pavanluca.pokemonocean.di
 
 import android.content.Context
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.squareup.moshi.Moshi
@@ -64,4 +65,7 @@ object AppComponent {
             .error(R.drawable.ic_image)
             .diskCacheStrategy(DiskCacheStrategy.DATA)
     )
+
+    @Provides
+    fun provideFragmentFactory(glide: RequestManager) = PokemonFragmentFactory(glide)
 }

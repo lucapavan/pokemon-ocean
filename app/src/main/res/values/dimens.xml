@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="pokemon_list_image_size">94dp</dimen>
+    <dimen name="pokemon_detail_image_size">120dp</dimen>
+
     <dimen name="smallest_margin">5dp</dimen>
     <dimen name="small_margin">10dp</dimen>
     <dimen name="card_corner_radius">12dp</dimen>

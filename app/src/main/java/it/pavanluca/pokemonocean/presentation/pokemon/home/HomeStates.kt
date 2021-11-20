@@ -1,4 +1,4 @@
-package it.pavanluca.pokemonocean.presentation.pokemon
+package it.pavanluca.pokemonocean.presentation.pokemon.home
 
 import io.uniflow.core.flow.data.UIState
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
