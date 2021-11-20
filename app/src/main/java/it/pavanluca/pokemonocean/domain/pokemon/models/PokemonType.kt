@@ -5,5 +5,6 @@ package it.pavanluca.pokemonocean.domain.pokemon.models
  */
 data class PokemonType(
     val slot: Int?,
-    val type: Species?,
+    val name: String?,
+    val color: String?
 )

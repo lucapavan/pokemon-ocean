@@ -1,4 +1,4 @@
-package it.pavanluca.pokemonocean.presentation.widget.recyclerview
+package it.pavanluca.pokemonocean.presentation.widget.recyclerview.home
 
 import androidx.recyclerview.widget.DiffUtil
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon

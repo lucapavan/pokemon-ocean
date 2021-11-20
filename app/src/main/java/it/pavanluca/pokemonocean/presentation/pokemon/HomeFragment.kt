@@ -1,7 +1,6 @@
 package it.pavanluca.pokemonocean.presentation.pokemon
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import io.uniflow.android.livedata.onStates
 import io.uniflow.core.flow.data.UIState
 import it.pavanluca.pokemonocean.databinding.HomeFragmentBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
-import it.pavanluca.pokemonocean.presentation.widget.recyclerview.PokemonAdapter
+import it.pavanluca.pokemonocean.presentation.widget.recyclerview.home.PokemonAdapter
 import javax.inject.Inject
 
 /**
@@ -76,7 +75,6 @@ class HomeFragment : Fragment() {
     private fun setupRecycler() {
         binding.rwPokemon.apply {
             adapter = pokemonAdapter
-            layoutManager = GridLayoutManager(context, 2)
         }
     }
 

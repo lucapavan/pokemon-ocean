@@ -9,16 +9,14 @@
         android:id="@+id/rw_pokemon"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="20"
-        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/list_item_pokemon"
-        tools:orientation="vertical"
-        tools:scrollbars="vertical"
-        tools:spanCount="2" />
+        tools:listitem="@layout/list_item_pokemon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,21 @@
-package it.pavanluca.pokemonocean.presentation.widget.recyclerview
+package it.pavanluca.pokemonocean.presentation.widget.recyclerview.home
 
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
+import com.google.android.material.chip.Chip
+import dagger.hilt.android.qualifiers.ApplicationContext
+import it.pavanluca.pokemonocean.R
 import it.pavanluca.pokemonocean.databinding.ListItemPokemonBinding
+import it.pavanluca.pokemonocean.databinding.PokemonTypeLayoutBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
 import javax.inject.Inject
 
@@ -14,7 +23,8 @@ import javax.inject.Inject
  * Created by Luca Pavan on 19/11/21
  */
 class PokemonAdapter @Inject constructor(
-    private val glide: RequestManager
+    private val glide: RequestManager,
+    @ApplicationContext private val context: Context
 ) : RecyclerView.Adapter<PokemonAdapter.PokemonVH>() {
 
     private var itemClick: ((Pokemon) -> Unit)? = null
@@ -25,17 +35,18 @@ class PokemonAdapter @Inject constructor(
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonAdapter.PokemonVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonVH {
         return PokemonVH(
             ListItemPokemonBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            LayoutInflater.from(parent.context)
         )
     }
 
-    override fun onBindViewHolder(holder: PokemonAdapter.PokemonVH, position: Int) {
+    override fun onBindViewHolder(holder: PokemonVH, position: Int) {
         val pokemon = items[position]
         holder.viewBinding.apply {
             textPokemonName.text = pokemon.name
@@ -47,6 +58,8 @@ class PokemonAdapter @Inject constructor(
             glide.load(pokemon.imageUrl)
                 .centerCrop()
                 .into(imagePokemon)
+
+            setupPokemonTypes(this, pokemon, holder.layoutInflater)
         }
     }
 
@@ -62,8 +75,33 @@ class PokemonAdapter @Inject constructor(
         items = tempList
     }
 
-    inner class PokemonVH(val viewBinding: ListItemPokemonBinding) :
-        RecyclerView.ViewHolder(viewBinding.root) {
+    private fun setupPokemonTypes(
+        binding: ListItemPokemonBinding,
+        pokemon: Pokemon,
+        layoutInflater: LayoutInflater
+    ) {
+        binding.cgPokemonTypes.removeAllViews()
+        pokemon.types?.filter {
+            !it.name.isNullOrBlank()
+        }?.forEach { type ->
+            type.name?.let {
+                val chip = layoutInflater.inflate(R.layout.pokemon_type_layout, null,false) as Chip
+                chip.id = ViewCompat.generateViewId()
+                chip.isCheckable = false
+                chip.text = type.name
+                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(type.color))
+
+                binding.cgPokemonTypes.addView(chip)
+            }
+        } ?: run {
+            binding.cgPokemonTypes.visibility = View.GONE
+        }
+    }
+
+    inner class PokemonVH(
+        val viewBinding: ListItemPokemonBinding,
+        val layoutInflater: LayoutInflater
+    ) : RecyclerView.ViewHolder(viewBinding.root) {
 
         init {
             //added ripple effect to feedback the user tap
