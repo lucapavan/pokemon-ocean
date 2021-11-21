@@ -1,5 +1,6 @@
 package it.pavanluca.pokemonocean.data.pokemon.repository
 
+import it.pavanluca.pokemonocean.R
 import it.pavanluca.pokemonocean.common.Constants
 import it.pavanluca.pokemonocean.common.PokemonError
 import it.pavanluca.pokemonocean.data.pokemon.remote.api.PokemonApi

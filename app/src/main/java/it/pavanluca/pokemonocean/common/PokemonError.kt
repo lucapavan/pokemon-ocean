@@ -3,7 +3,11 @@ package it.pavanluca.pokemonocean.common
 /**
  * Created by Luca Pavan on 19/11/21
  */
-class PokemonError(message: String = "", isSilentError: Boolean = false) : Throwable(message) {
+class PokemonError(
+    messageToSend: String = "",
+    var messageToShow: Int? = null,
+    isSilentError: Boolean = false
+) : Throwable(messageToSend) {
 
     var code: ErrorCode = ErrorCode.GENERIC
         private set
@@ -12,30 +16,22 @@ class PokemonError(message: String = "", isSilentError: Boolean = false) : Throw
         private set
 
     companion object {
-
         fun asNoData(): PokemonError {
-            val error = PokemonError("", true)
+            val error = PokemonError(
+                messageToSend = "There is no data",
+                isSilentError = true
+            )
             error.code = ErrorCode.NO_DATA
             return error
         }
+    }
 
-        fun asNoMoreData(): PokemonError {
-            val error = PokemonError("", true)
-            error.code = ErrorCode.NO_MORE_DATA
-            return error
-        }
-
-        fun asInvalidUrl(): PokemonError {
-            val error = PokemonError("", true)
-            error.code = ErrorCode.INVALID_URL
-            return error
-        }
+    override fun toString(): String {
+        return "PokemonError: { code: $code, isSilent: $isSilent, message: $message}"
     }
 }
 
 enum class ErrorCode {
     GENERIC,
-    NO_DATA,
-    NO_MORE_DATA,
-    INVALID_URL
+    NO_DATA
 }

@@ -1,5 +1,8 @@
 package it.pavanluca.pokemonocean.presentation
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.FragmentNavigator
@@ -7,13 +10,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import it.pavanluca.pokemonocean.R
 import it.pavanluca.pokemonocean.databinding.ActivityMainBinding
-import it.pavanluca.pokemonocean.di.PokemonFragmentFactory
 import it.pavanluca.pokemonocean.presentation.pokemon.detail.DetailFragment
 import it.pavanluca.pokemonocean.presentation.pokemon.home.HomeFragment
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -57,5 +59,17 @@ class MainActivity : AppCompatActivity() {
             navController,
             appBarConfiguration
         )
+    }
+
+    fun showDialogError(errorMessage: Int, onRetry: () -> Unit ) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.error_title)
+            .setMessage(errorMessage)
+            .setPositiveButton(R.string.action_retry) { dialog, _ ->
+                onRetry()
+                dialog?.dismiss()
+            }
+            .create()
+            .show()
     }
 }

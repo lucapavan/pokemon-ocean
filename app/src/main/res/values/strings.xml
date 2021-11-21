@@ -3,4 +3,11 @@
     <string name="pokemon_list_image_desc">Image of the pokemon inside the home\'s list</string>
     <string name="info">Info</string>
     <string name="stats">Stats</string>
+
+    <string name="error_title">Oops! Something went wrong</string>
+    <string name="error_message">Sorry but something went wrong. Please try again or contact us</string>
+
+    <string name="internet_connection_error_message">Check your internet connection and try again</string>
+
+    <string name="action_retry">Retry</string>
 </resources>

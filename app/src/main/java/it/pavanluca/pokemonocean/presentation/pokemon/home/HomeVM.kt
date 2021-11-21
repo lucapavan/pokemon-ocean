@@ -5,7 +5,9 @@ import io.uniflow.android.AndroidDataFlow
 import io.uniflow.android.livedata.states
 import io.uniflow.core.flow.data.UIEvent
 import io.uniflow.core.flow.data.UIState
+import it.pavanluca.pokemonocean.R
 import it.pavanluca.pokemonocean.common.Constants
+import it.pavanluca.pokemonocean.common.PokemonError
 import it.pavanluca.pokemonocean.domain.pokemon.use_case.GetPokemonListUseCase
 import it.pavanluca.pokemonocean.domain.pokemon.use_case.GetPokemonUseCase
 import it.pavanluca.pokemonocean.presentation.widget.recyclerview.PageListener
@@ -28,15 +30,16 @@ class HomeVM @Inject constructor(
         getPokemonList(currentPage)
     }
 
-    fun getPokemonList(page: Int) = action {
+    fun retryToGetPokemonList() = getPokemonList(page = currentPage)
+
+    private fun getPokemonList(page: Int) = action {
         sendEvent { UIEvent.Loading }
         runCatching {
             val pokemon = getPokemonListUseCase(page)
-            setState { PokemonListLoaded(pokemon) }
+            setState { UIPokemonListLoaded(pokemon) }
             sendEvent { UIEvent.Success }
         }.getOrElse {
-            sendEvent { UIEvent.Error(it.message, it) }
-            setState { UIState.Failed(it.message, it) }
+            setState { UIPokemonError(setupError(it)) }
         }
     }
 
@@ -44,11 +47,20 @@ class HomeVM @Inject constructor(
         runCatching {
             val pokemon = getPokemonUseCase(name)
             pokemonCounter++
-            setState { PokemonLoaded(pokemon) }
+            setState { UIPokemonLoaded(pokemon) }
         }.getOrElse {
-            sendEvent { UIEvent.Error(it.message, it) }
-            setState { UIState.Failed(it.message, it) }
+            setState { UIPokemonError(setupError(it)) }
         }
+    }
+
+    private fun setupError(it: Throwable): PokemonError {
+        return (it as PokemonError?)?.let { pokemonError ->
+            if (pokemonError.isSilent) {
+                PokemonError(messageToShow = R.string.error_message)
+            } else {
+                PokemonError.asNoData()
+            }
+        } ?: PokemonError(messageToShow = R.string.error_message)
     }
 
     override fun onEndReached() {

@@ -1,6 +1,10 @@
 package it.pavanluca.pokemonocean.presentation.pokemon.home
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +15,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.uniflow.android.livedata.onEvents
 import io.uniflow.android.livedata.onStates
 import io.uniflow.core.flow.data.UIEvent
+import it.pavanluca.pokemonocean.BuildConfig
+import it.pavanluca.pokemonocean.R
+import it.pavanluca.pokemonocean.common.PokemonError
 import it.pavanluca.pokemonocean.databinding.HomeFragmentBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
+import it.pavanluca.pokemonocean.presentation.MainActivity
 import it.pavanluca.pokemonocean.presentation.extensions.capitalizeLocale
 import it.pavanluca.pokemonocean.presentation.widget.recyclerview.PagedScrollListener
 import it.pavanluca.pokemonocean.presentation.widget.recyclerview.home.PokemonAdapter
@@ -68,6 +76,12 @@ class HomeFragment : Fragment() {
         super.onSaveInstanceState(outState)
     }
 
+    private fun isNetworkAvailable(): Boolean {
+        val cm = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.getNetworkCapabilities(cm.activeNetwork)
+            ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+    }
+
     private fun setupObservable() {
         onEvents(viewModel) { event ->
             when (event) {
@@ -82,11 +96,15 @@ class HomeFragment : Fragment() {
 
         onStates(viewModel) { state ->
             when (state) {
-                is PokemonListLoaded -> {
+                is UIPokemonListLoaded -> {
                     retrievePokemon(state.pokemonNames)
                 }
-                is PokemonLoaded -> {
+                is UIPokemonLoaded -> {
                     addPokemon(state.pokemon)
+                }
+                is UIPokemonError -> {
+                    hideLoading()
+                    showDialog(state.error)
                 }
             }
         }
@@ -130,6 +148,30 @@ class HomeFragment : Fragment() {
     private fun hideLoading() {
         if (binding.progressHorizontal.visibility != View.GONE) {
             binding.progressHorizontal.visibility = View.GONE
+        }
+    }
+
+    private fun showDialog(error: PokemonError) {
+        if (BuildConfig.DEBUG) {
+            Log.e("HomeFragment", "ShowError: ${error.message}")
+        }
+
+        if (!isNetworkAvailable()) {
+            showDialog(R.string.internet_connection_error_message)
+            return
+        }
+
+        error.messageToShow?.let { errorMessage ->
+            (requireActivity() as MainActivity?)?.showDialogError(errorMessage) {
+                viewModel.retryToGetPokemonList()
+            }
+        }
+    }
+
+    private fun showDialog(resStringId: Int) {
+        (requireActivity() as MainActivity?)?.showDialogError(resStringId) {
+
+            viewModel.retryToGetPokemonList()
         }
     }
 
