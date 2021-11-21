@@ -29,11 +29,11 @@
                 tools:src="@tools:sample/avatars" />
 
             <TextView
+                style="?attr/textAppearanceBody1"
                 android:id="@+id/text_pokemon_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_margin"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_pokemon"
                 app:layout_constraintTop_toTopOf="parent"
