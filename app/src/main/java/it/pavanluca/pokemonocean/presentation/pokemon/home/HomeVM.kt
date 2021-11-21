@@ -2,9 +2,10 @@ package it.pavanluca.pokemonocean.presentation.pokemon.home
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.uniflow.android.AndroidDataFlow
-import io.uniflow.core.flow.data.UIError
+import io.uniflow.android.livedata.states
 import io.uniflow.core.flow.data.UIEvent
 import io.uniflow.core.flow.data.UIState
+import it.pavanluca.pokemonocean.common.Constants
 import it.pavanluca.pokemonocean.domain.pokemon.use_case.GetPokemonListUseCase
 import it.pavanluca.pokemonocean.domain.pokemon.use_case.GetPokemonUseCase
 import it.pavanluca.pokemonocean.presentation.widget.recyclerview.PageListener
@@ -20,6 +21,8 @@ class HomeVM @Inject constructor(
 ) : AndroidDataFlow(), PageListener {
 
     private var currentPage = 0
+
+    private var pokemonCounter = 0
 
     init {
         getPokemonList(currentPage)
@@ -40,6 +43,7 @@ class HomeVM @Inject constructor(
     fun getPokemon(name: String) = action {
         runCatching {
             val pokemon = getPokemonUseCase(name)
+            pokemonCounter++
             setState { PokemonLoaded(pokemon) }
         }.getOrElse {
             sendEvent { UIEvent.Error(it.message, it) }
@@ -48,6 +52,11 @@ class HomeVM @Inject constructor(
     }
 
     override fun onEndReached() {
-        getPokemonList(page = ++currentPage)
+        if (states.value !is UIState.Loading &&
+            pokemonCounter % Constants.POKEMON_PER_PAGE == 0 &&
+            !getPokemonListUseCase.isLastPageReached
+        ) {
+            getPokemonList(page = ++currentPage)
+        }
     }
 }
