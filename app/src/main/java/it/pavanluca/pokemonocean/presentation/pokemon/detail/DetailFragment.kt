@@ -29,6 +29,8 @@ class DetailFragment @Inject constructor(
 
     private val args by navArgs<DetailFragmentArgs>()
 
+    private var primaryColor: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,20 +39,20 @@ class DetailFragment @Inject constructor(
         binding = DetailFragmentBinding.inflate(inflater, container, false)
 
         setupPokemonImage(args.pokemon)
-        setupPokemonDetails(args.pokemon)
         setupPokemonTypes(args.pokemon, inflater)
+        setupPokemonDetails(args.pokemon)
 
         return binding.root
     }
 
     private fun setupPokemonImage(pokemon: Pokemon) {
-        glide.load(pokemon.imageUrl)
-            .centerCrop()
+        glide.load(pokemon.detailImageUrl)
             .into(binding.imagePokemon)
     }
 
     private fun setupPokemonDetails(pokemon: Pokemon) {
         with(binding) {
+            root.setBackgroundColor(Color.parseColor(primaryColor))
         }
     }
 
@@ -58,7 +60,6 @@ class DetailFragment @Inject constructor(
         pokemon: Pokemon,
         layoutInflater: LayoutInflater
     ) {
-        binding.cgPokemonTypes.removeAllViews()
         pokemon.types?.filter {
             !it.name.isNullOrBlank()
         }?.forEach { type ->
@@ -68,6 +69,10 @@ class DetailFragment @Inject constructor(
                 chip.isCheckable = false
                 chip.text = type.name
                 chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(type.color))
+
+                if (primaryColor.isNullOrBlank()) {
+                    primaryColor = type.color
+                }
 
                 binding.cgPokemonTypes.addView(chip)
             }

@@ -13,6 +13,7 @@ data class Pokemon(
     val abilities: ArrayList<Ability>?,
     val moves: ArrayList<Move>?,
     val imageUrl: String?,
+    val detailImageUrl: String,
     val stats: ArrayList<Stat>?,
     val types: ArrayList<PokemonType>?
 ) : Parcelable

@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="main_200">#0DD6D3</color>
-    <color name="main_500">#1595BF</color>
-    <color name="main_700">#0C37CC</color>
-    <color name="secondary_200">#FF0CCC93</color>
-    <color name="secondary_700">#FF098761</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF212121</color>
+    <color name="white">#FFFEFEFE</color>
+    <color name="accent">#FF1595BF</color>
 </resources>

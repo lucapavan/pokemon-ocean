@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/navGraphHomeFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/navGraphHomeFragment"
         android:name="it.pavanluca.pokemonocean.presentation.pokemon.home.HomeFragment"
-        android:label="HomeFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_show_detail"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/navGraphDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailFragment"
+        android:id="@+id/navGraphDetailFragment"
         android:name="it.pavanluca.pokemonocean.presentation.pokemon.detail.DetailFragment"
         android:label="{pokemonName}">
         <argument

@@ -1,6 +1,5 @@
 package it.pavanluca.pokemonocean.presentation.widget.recyclerview.home
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.TypedValue
@@ -12,10 +11,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.google.android.material.chip.Chip
-import dagger.hilt.android.qualifiers.ApplicationContext
 import it.pavanluca.pokemonocean.R
 import it.pavanluca.pokemonocean.databinding.ListItemPokemonBinding
-import it.pavanluca.pokemonocean.databinding.PokemonTypeLayoutBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
 import it.pavanluca.pokemonocean.presentation.extensions.capitalizeLocale
 import javax.inject.Inject
@@ -85,7 +82,7 @@ class PokemonAdapter @Inject constructor(
             !it.name.isNullOrBlank()
         }?.forEach { type ->
             type.name?.let {
-                val chip = layoutInflater.inflate(R.layout.pokemon_type_layout, null,false) as Chip
+                val chip = layoutInflater.inflate(R.layout.pokemon_type_layout, null, false) as Chip
                 chip.id = ViewCompat.generateViewId()
                 chip.isCheckable = false
                 chip.text = type.name
