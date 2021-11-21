@@ -15,7 +15,7 @@
         android:theme="@style/Theme.PokémonOcean">
         <activity
             android:name=".presentation.MainActivity"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:configChanges="screenSize|screenLayout|keyboardHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

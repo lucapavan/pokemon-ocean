@@ -55,7 +55,7 @@ class DetailFragment @Inject constructor(
 
     private fun setupPokemonDetails(pokemon: Pokemon) {
         with(binding) {
-            root.setBackgroundColor(Color.parseColor(primaryColor))
+            backgroundPokemon.setBackgroundColor(Color.parseColor(primaryColor))
 
             idLabel.text = pokemon.id.formattedId()
 

@@ -1,9 +1,8 @@
 package it.pavanluca.pokemonocean.presentation
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.NavHostFragment
@@ -20,8 +19,12 @@ import it.pavanluca.pokemonocean.presentation.pokemon.home.HomeFragment
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        private const val APP_BAR_EXTENDED_KEY = "app_bar_extended_key"
+    }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private var appBarIsExtended = true
+    private var appBarIsExtended: Boolean? = null
 
     private lateinit var binding: ActivityMainBinding
 
@@ -29,6 +32,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
+
+        savedInstanceState?.let {
+            if (it.containsKey(APP_BAR_EXTENDED_KEY)) {
+                appBarIsExtended = it.getBoolean(APP_BAR_EXTENDED_KEY)
+            }
+        }
 
         setupToolbar()
     }
@@ -40,9 +49,11 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, dest, _ ->
             if ((dest as FragmentNavigator.Destination).className == DetailFragment::class.java.name) {
-                binding.appBar.setExpanded(true)
+                binding.appBar.setExpanded(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
             } else {
-                binding.appBar.setExpanded(appBarIsExtended)
+                appBarIsExtended?.let {
+                    binding.appBar.setExpanded(it)
+                }
             }
         }
 
@@ -61,7 +72,14 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun showDialogError(errorMessage: Int, onRetry: () -> Unit ) {
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        appBarIsExtended?.let {
+            outState.putBoolean(APP_BAR_EXTENDED_KEY, it)
+        }
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
+
+    fun showDialogError(errorMessage: Int, onRetry: () -> Unit) {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.error_title)
             .setMessage(errorMessage)

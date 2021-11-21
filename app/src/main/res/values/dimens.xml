@@ -15,7 +15,7 @@
     <!--region Details-->
 
     <dimen name="bottom_sheet_radius">30dp</dimen>
-    <dimen name="chip_radius">200dp</dimen>
+    <dimen name="background_color_negative_margin">-30dp</dimen>
 
     <!--endregion-->
 </resources>
