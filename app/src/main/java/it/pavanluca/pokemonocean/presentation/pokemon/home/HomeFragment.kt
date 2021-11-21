@@ -11,10 +11,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.uniflow.android.livedata.onEvents
 import io.uniflow.android.livedata.onStates
 import io.uniflow.core.flow.data.UIEvent
-import io.uniflow.core.flow.data.UIState
 import it.pavanluca.pokemonocean.databinding.HomeFragmentBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
 import it.pavanluca.pokemonocean.presentation.extensions.capitalizeLocale
+import it.pavanluca.pokemonocean.presentation.widget.recyclerview.PagedScrollListener
 import it.pavanluca.pokemonocean.presentation.widget.recyclerview.home.PokemonAdapter
 import javax.inject.Inject
 
@@ -50,7 +50,6 @@ class HomeFragment : Fragment() {
         setupAdapter()
         setupRecycler()
 
-        viewModel.getPokemonList()
     }
 
     private fun setupObservable() {
@@ -67,9 +66,6 @@ class HomeFragment : Fragment() {
 
         onStates(viewModel) { state ->
             when (state) {
-                is UIState.Empty -> {
-                    viewModel.getPokemonList()
-                }
                 is PokemonListLoaded -> {
                     retrievePokemon(state.pokemonNames)
                 }
@@ -94,6 +90,8 @@ class HomeFragment : Fragment() {
     private fun setupRecycler() {
         binding.rwPokemon.apply {
             adapter = pokemonAdapter
+            clearOnScrollListeners()
+            addOnScrollListener(PagedScrollListener(viewModel))
         }
     }
 
