@@ -17,14 +17,14 @@ import it.pavanluca.pokemonocean.R
 import it.pavanluca.pokemonocean.databinding.ListItemPokemonBinding
 import it.pavanluca.pokemonocean.databinding.PokemonTypeLayoutBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
+import it.pavanluca.pokemonocean.presentation.extensions.capitalizeLocale
 import javax.inject.Inject
 
 /**
  * Created by Luca Pavan on 19/11/21
  */
 class PokemonAdapter @Inject constructor(
-    private val glide: RequestManager,
-    @ApplicationContext private val context: Context
+    private val glide: RequestManager
 ) : RecyclerView.Adapter<PokemonAdapter.PokemonVH>() {
 
     private var itemClick: ((Pokemon) -> Unit)? = null
@@ -49,7 +49,7 @@ class PokemonAdapter @Inject constructor(
     override fun onBindViewHolder(holder: PokemonVH, position: Int) {
         val pokemon = items[position]
         holder.viewBinding.apply {
-            textPokemonName.text = pokemon.name
+            textPokemonName.text = pokemon.name.capitalizeLocale()
 
             cardContainer.setOnClickListener {
                 itemClick?.invoke(pokemon)

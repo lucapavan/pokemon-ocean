@@ -12,6 +12,7 @@ import io.uniflow.android.livedata.onStates
 import io.uniflow.core.flow.data.UIState
 import it.pavanluca.pokemonocean.databinding.HomeFragmentBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
+import it.pavanluca.pokemonocean.presentation.extensions.capitalizeLocale
 import it.pavanluca.pokemonocean.presentation.widget.recyclerview.home.PokemonAdapter
 import javax.inject.Inject
 
@@ -68,7 +69,12 @@ class HomeFragment : Fragment() {
 
     private fun setupAdapter() {
         pokemonAdapter.setOnClickListener { pokemon ->
-            findNavController().navigate(HomeFragmentDirections.actionShowDetail(pokemon))
+            findNavController().navigate(
+                HomeFragmentDirections.actionShowDetail(
+                    pokemon,
+                    pokemon.name.capitalizeLocale()
+                )
+            )
         }
     }
 

@@ -51,7 +51,6 @@ class DetailFragment @Inject constructor(
 
     private fun setupPokemonDetails(pokemon: Pokemon) {
         with(binding) {
-            textPokemonName.text = pokemon.name
         }
     }
 

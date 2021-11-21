@@ -17,9 +17,12 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="it.pavanluca.pokemonocean.presentation.pokemon.detail.DetailFragment"
-        android:label="DetailFragment">
+        android:label="{pokemonName}">
         <argument
             android:name="pokemon"
             app:argType="it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon" />
+        <argument
+            android:name="pokemonName"
+            app:argType="string" />
     </fragment>
 </navigation>
