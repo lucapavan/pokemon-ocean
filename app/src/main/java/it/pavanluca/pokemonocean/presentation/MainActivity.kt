@@ -23,16 +23,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    @Inject
-    lateinit var pokemonFactory: PokemonFragmentFactory
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
 
         setupToolbar()
-        setupFragmentFactory()
     }
 
     private fun setupToolbar() {
@@ -61,9 +57,5 @@ class MainActivity : AppCompatActivity() {
             navController,
             appBarConfiguration
         )
-    }
-
-    private fun setupFragmentFactory() {
-        supportFragmentManager.fragmentFactory = pokemonFactory
     }
 }
