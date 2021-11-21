@@ -10,5 +10,5 @@ import kotlinx.parcelize.Parcelize
 data class Stat(
     val baseStat: Int?,
     val effort: Int?,
-    val stat: Species?
+    val name: String?
 ) : Parcelable

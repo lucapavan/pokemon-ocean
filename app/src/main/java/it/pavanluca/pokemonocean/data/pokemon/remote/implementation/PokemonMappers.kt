@@ -43,7 +43,7 @@ fun StatDto.toEntity(): Stat {
     return Stat(
         baseStat,
         effort,
-        stat?.toEntity()
+        stat?.toEntity()?.name
     )
 }
 

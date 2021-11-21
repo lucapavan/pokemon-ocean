@@ -10,3 +10,12 @@ fun String.capitalizeLocale(): String {
         if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
     }
 }
+
+fun Int.formattedId(): String {
+    return when {
+        this < 10 -> "#000$this"
+        this in 10..99 -> "#00$this"
+        this in 100..999 -> "#0$this"
+        else -> "#$this"
+    }
+}

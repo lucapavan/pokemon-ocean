@@ -14,7 +14,10 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import it.pavanluca.pokemonocean.R
 import it.pavanluca.pokemonocean.databinding.DetailFragmentBinding
+import it.pavanluca.pokemonocean.databinding.PokemonStatLayoutBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
+import it.pavanluca.pokemonocean.presentation.extensions.capitalizeLocale
+import it.pavanluca.pokemonocean.presentation.extensions.formattedId
 import javax.inject.Inject
 
 /**
@@ -39,7 +42,7 @@ class DetailFragment @Inject constructor(
         binding = DetailFragmentBinding.inflate(inflater, container, false)
 
         setupPokemonImage(args.pokemon)
-        setupPokemonTypes(args.pokemon, inflater)
+        setupPokemonTypes(args.pokemon)
         setupPokemonDetails(args.pokemon)
 
         return binding.root
@@ -53,12 +56,35 @@ class DetailFragment @Inject constructor(
     private fun setupPokemonDetails(pokemon: Pokemon) {
         with(binding) {
             root.setBackgroundColor(Color.parseColor(primaryColor))
+
+            idLabel.text = pokemon.id.formattedId()
+
+            pokemon.stats?.filter {
+                it.baseStat != null && !it.name.isNullOrBlank()
+            }?.forEach { stat ->
+                val bindedLayout = PokemonStatLayoutBinding.inflate(layoutInflater)
+
+                val parsedName = stat.name!!.replace("-", " ", false)
+                bindedLayout.statLabel.text = parsedName.capitalizeLocale()
+
+                when (stat.name) {
+                    "hp" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                    "attack" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                    "defense" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                    "special-attack" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                    "special-defense" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                    "speed" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                    "accuracy" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                    "evasion" -> bindedLayout.statIndicator.setProgressCompat(stat.baseStat!!, false)
+                }
+
+                binding.statsContainer.addView(bindedLayout.root)
+            }
         }
     }
 
     private fun setupPokemonTypes(
-        pokemon: Pokemon,
-        layoutInflater: LayoutInflater
+        pokemon: Pokemon
     ) {
         pokemon.types?.filter {
             !it.name.isNullOrBlank()
