@@ -31,6 +31,19 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var pokemonAdapter: PokemonAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(requireActivity())[HomeVM::class.java]
+
+        savedInstanceState?.let {
+            if (it.containsKey(ITEMS_KEY)) {
+                val list = it.getParcelableArrayList<Pokemon>(ITEMS_KEY) as List<Pokemon>
+                pokemonAdapter.items = list
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,12 +57,15 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        viewModel = ViewModelProvider(requireActivity())[HomeVM::class.java]
-
         setupObservable()
         setupAdapter()
         setupRecycler()
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelableArrayList(ITEMS_KEY, ArrayList(pokemonAdapter.items))
+        super.onSaveInstanceState(outState)
     }
 
     private fun setupObservable() {
@@ -115,5 +131,9 @@ class HomeFragment : Fragment() {
         if (binding.progressHorizontal.visibility != View.GONE) {
             binding.progressHorizontal.visibility = View.GONE
         }
+    }
+
+    companion object {
+        private const val ITEMS_KEY = "items_key"
     }
 }

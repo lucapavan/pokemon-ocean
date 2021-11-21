@@ -28,7 +28,7 @@ class PokemonAdapter @Inject constructor(
 
     private val differ = AsyncListDiffer(this, PokemonDiffCallback())
 
-    private var items: List<Pokemon>
+    var items: List<Pokemon>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
