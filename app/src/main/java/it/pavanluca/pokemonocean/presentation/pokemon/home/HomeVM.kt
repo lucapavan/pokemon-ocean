@@ -2,6 +2,7 @@ package it.pavanluca.pokemonocean.presentation.pokemon.home
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.uniflow.android.AndroidDataFlow
+import io.uniflow.core.flow.data.UIEvent
 import it.pavanluca.pokemonocean.domain.pokemon.use_case.GetPokemonListUseCase
 import it.pavanluca.pokemonocean.domain.pokemon.use_case.GetPokemonUseCase
 import javax.inject.Inject
@@ -16,8 +17,10 @@ class HomeVM @Inject constructor(
 ) : AndroidDataFlow() {
 
     fun getPokemonList(page: Int = 0) = action {
+        sendEvent { UIEvent.Loading }
         val pokemon = getPokemonListUseCase(page)
         setState { PokemonListLoaded(pokemon) }
+        sendEvent { UIEvent.Success }
     }
 
     fun getPokemon(name: String) = action {

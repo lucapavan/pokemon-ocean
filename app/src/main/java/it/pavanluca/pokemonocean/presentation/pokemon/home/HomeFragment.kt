@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import io.uniflow.android.livedata.onEvents
 import io.uniflow.android.livedata.onStates
+import io.uniflow.core.flow.data.UIEvent
 import io.uniflow.core.flow.data.UIState
 import it.pavanluca.pokemonocean.databinding.HomeFragmentBinding
 import it.pavanluca.pokemonocean.domain.pokemon.models.Pokemon
@@ -52,6 +54,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupObservable() {
+        onEvents(viewModel) { event ->
+            when (event) {
+                is UIEvent.Loading -> {
+                    showLoading()
+                }
+                is UIEvent.Success -> {
+                    hideLoading()
+                }
+            }
+        }
+
         onStates(viewModel) { state ->
             when (state) {
                 is UIState.Empty -> {
@@ -92,5 +105,17 @@ class HomeFragment : Fragment() {
 
     private fun addPokemon(pokemon: Pokemon) {
         pokemonAdapter.addPokemon(pokemon)
+    }
+
+    private fun showLoading() {
+        if (binding.progressHorizontal.visibility != View.VISIBLE) {
+            binding.progressHorizontal.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoading() {
+        if (binding.progressHorizontal.visibility != View.GONE) {
+            binding.progressHorizontal.visibility = View.GONE
+        }
     }
 }
