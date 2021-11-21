@@ -14,7 +14,7 @@ fun PokemonDto.toEntity(): Pokemon? {
     } else {
         Pokemon(
             id,
-            name,
+            name.replace("-", " "),
             abilities?.mapTo(ArrayList()) { it.toEntity() },
             moves?.mapTo(ArrayList()) { it.toEntity() },
             sprites?.frontDefault,
