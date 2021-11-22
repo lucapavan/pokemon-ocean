@@ -8,5 +8,5 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Move(
-    val move: Species?
+    val move: String?
 ) : Parcelable

@@ -54,7 +54,7 @@ class HomeVM @Inject constructor(
     }
 
     private fun setupError(it: Throwable): PokemonError {
-        return (it as PokemonError?)?.let { pokemonError ->
+        return (it as? PokemonError)?.let { pokemonError ->
             if (pokemonError.isSilent) {
                 PokemonError(messageToShow = R.string.error_message)
             } else {

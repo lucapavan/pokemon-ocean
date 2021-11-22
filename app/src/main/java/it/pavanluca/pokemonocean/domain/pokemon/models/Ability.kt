@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Ability(
-    val ability: Species?,
+    val ability: String?,
     val isHidden: Boolean?,
     val slot: Int?
 ) : Parcelable

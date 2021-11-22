@@ -101,4 +101,9 @@ dependencies {
     // Uniflow - Android
     implementation "org.uniflow-kt:uniflow-android:$project.uniflow_ver"
     testImplementation "org.uniflow-kt:uniflow-android-test:$project.uniflow_ver"
+
+    // Room
+    implementation "androidx.room:room-runtime:$project.room"
+    implementation "androidx.room:room-ktx:$project.room"
+    kapt "androidx.room:room-compiler:$project.room"
 }

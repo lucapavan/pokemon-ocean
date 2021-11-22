@@ -10,10 +10,10 @@ import kotlinx.parcelize.Parcelize
 data class Pokemon(
     val id: Int,
     val name: String,
-    val abilities: ArrayList<Ability>?,
-    val moves: ArrayList<Move>?,
+    val abilities: List<Ability>?,
+    val moves: List<Move>?,
     val imageUrl: String?,
     val detailImageUrl: String,
-    val stats: ArrayList<Stat>?,
-    val types: ArrayList<PokemonType>?
+    val stats: List<Stat>?,
+    val types: List<PokemonType>?
 ) : Parcelable

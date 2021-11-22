@@ -32,31 +32,6 @@ object AppComponent {
 
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder()
-        .addLast(KotlinJsonAdapterFactory())
-        .build()
-
-    @Provides
-    @Singleton
-    fun providePokemonRepository(repositoryImpl: RepositoryImpl): Repository = repositoryImpl
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
-
-    @Provides
-    @Singleton
-    fun providePokemonApi(moshi: Moshi, okHttpClient: OkHttpClient): PokemonApi {
-        return Retrofit.Builder()
-            .baseUrl(Constants.BASE_POKEMON_URL)
-            .callFactory(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-            .create(PokemonApi::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideGlideApp(
         @ApplicationContext context: Context
     ) = Glide.with(context).setDefaultRequestOptions(

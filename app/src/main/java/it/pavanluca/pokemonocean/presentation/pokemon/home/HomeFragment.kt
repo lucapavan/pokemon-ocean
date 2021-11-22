@@ -39,6 +39,8 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var pokemonAdapter: PokemonAdapter
 
+    private var isNetworkDialogAlreadyShowed = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -157,19 +159,21 @@ class HomeFragment : Fragment() {
         }
 
         if (!isNetworkAvailable()) {
+            if (isNetworkDialogAlreadyShowed) return //avoid multiple network down dialog
+            isNetworkDialogAlreadyShowed = true
             showDialog(R.string.internet_connection_error_message)
             return
         }
 
         error.messageToShow?.let { errorMessage ->
-            (requireActivity() as MainActivity?)?.showDialogError(errorMessage) {
+            (requireActivity() as? MainActivity)?.showDialogError(errorMessage) {
                 viewModel.retryToGetPokemonList()
             }
         }
     }
 
     private fun showDialog(resStringId: Int) {
-        (requireActivity() as MainActivity?)?.showDialogError(resStringId) {
+        (requireActivity() as? MainActivity)?.showDialogError(resStringId) {
 
             viewModel.retryToGetPokemonList()
         }

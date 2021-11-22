@@ -1,4 +1,4 @@
-package it.pavanluca.pokemonocean.data.pokemon.remote.implementation
+package it.pavanluca.pokemonocean.data.pokemon.remote.mappers
 
 import it.pavanluca.pokemonocean.common.Constants
 import it.pavanluca.pokemonocean.data.pokemon.remote.dto.*
@@ -43,15 +43,15 @@ fun StatDto.toEntity(): Stat {
     return Stat(
         baseStat,
         effort,
-        stat?.toEntity()?.name
+        stat?.toEntity()
     )
 }
 
 fun TypeDto.toEntity(): PokemonType {
     return PokemonType(
         slot,
-        type?.toEntity()?.name,
-        getColorByName(type?.toEntity()?.name)
+        type?.toEntity(),
+        getColorByName(type?.toEntity())
     )
 }
 
@@ -79,9 +79,4 @@ fun getColorByName(name: String?): String? {
     }
 }
 
-fun SpeciesDto.toEntity(): Species {
-    return Species(
-        name,
-        url
-    )
-}
+fun SpeciesDto.toEntity(): String? = name
