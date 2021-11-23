@@ -67,9 +67,11 @@ class PokemonAdapter @Inject constructor(
     }
 
     fun addPokemon(pokemon: Pokemon) {
-        val tempList = items.toMutableList()
-        tempList.add(pokemon)
-        items = tempList
+        if (pokemon !in items) {
+            val tempList = items.toMutableList()
+            tempList.add(pokemon)
+            items = tempList
+        }
     }
 
     private fun setupPokemonTypes(
